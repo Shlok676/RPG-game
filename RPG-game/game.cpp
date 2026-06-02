@@ -1,4 +1,5 @@
 #include <SFML\Graphics.hpp>
+#include <iostream>
 
 int main() {
 
@@ -9,41 +10,34 @@ int main() {
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Game", sf::Style::Default, settings);
 
-	window.setFramerateLimit(120);
+	window.setFramerateLimit(200);
 
-	sf::CircleShape circle(50.0f);
-	circle.setFillColor(sf::Color::Red);
-	circle.setPosition(sf::Vector2f(400 - 50, 300 - 50));
-	circle.setOutlineThickness(5.0f);
-	circle.setOutlineColor(sf::Color::Green);
-
-	sf::RectangleShape rectangle(sf::Vector2f(100, 50));
-	rectangle.setFillColor(sf::Color::Blue);
-	rectangle.setPosition(sf::Vector2f(150 - 100, 150 - 50));
-	rectangle.setOutlineThickness(3.0f);
-	rectangle.setOutlineColor(sf::Color::Cyan);
-	// rectangle.setOrigin(rectangle.getSize() / 2.0f);
-	// rectangle.setRotation(45);
-
-	sf::CircleShape triangle(70.0f, 3);
-	triangle.setFillColor(sf::Color::Magenta);
-	triangle.setPosition(sf::Vector2f(700 - 70, 500 - 70));
-	triangle.setOutlineColor(sf::Color::Yellow);
-	triangle.setOutlineThickness(3.0f);
-
-	sf::CircleShape pentagon(60.0f, 5);
-	pentagon.setFillColor(sf::Color::Green);
-	pentagon.setPosition(sf::Vector2f(700 - 60, 150 - 60));
-	pentagon.setOutlineColor(sf::Color(139, 69, 19, 255));
-	pentagon.setOutlineThickness(3.0f);
-
-	sf::CircleShape octagon(50.0f, 8);
-	octagon.setFillColor(sf::Color(192, 41, 43));
-	octagon.setPosition(sf::Vector2f(100 - 50, 500 - 50));
-	octagon.setOutlineColor(sf::Color(241, 196, 15));
-	octagon.setOutlineThickness(3.0f);
+	
 
 	// --------------------------------------- Initialize ------------------------------------ //
+
+	// --------------------------------------- Load ------------------------------------------ //
+
+	sf::Texture playerTexture;
+	sf::Sprite playerSprite;
+
+	if (playerTexture.loadFromFile("Assets/Player/Textures/spritesheet.png")) {
+
+		playerSprite.setTexture(playerTexture);
+		std::cout << "Player image loaded" << std::endl;
+
+		int XIndex = 0;
+		int YIndex = 0;
+
+		playerSprite.setTextureRect(sf::IntRect(XIndex * 64, YIndex * 64, 64, 64));
+		playerSprite.scale(sf::Vector2f(3, 3));
+	}
+	else{
+		std::cout << "Player image failed to load" << std::endl;
+	}
+	
+
+	// --------------------------------------- Load ------------------------------------------ //
 
 	while (window.isOpen()) {
 
@@ -54,6 +48,34 @@ int main() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+
+			if (event.type == sf::Event::KeyPressed) {
+
+				if (event.key.code == sf::Keyboard::F) {
+
+					sf::Vector2f position = playerSprite.getPosition();
+					playerSprite.setPosition(position + sf::Vector2f(10, 0));
+				}
+
+			}
+		}
+
+		sf::Vector2f position = playerSprite.getPosition();
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			playerSprite.setPosition(position + sf::Vector2f(0, -1));
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			playerSprite.setPosition(position + sf::Vector2f(-1, 0));
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			playerSprite.setPosition(position + sf::Vector2f(0, 1));
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			playerSprite.setPosition(position + sf::Vector2f(1, 0));
 		}
 
 		// --------------------------------------- Update ------------------------------------ //
@@ -62,11 +84,7 @@ int main() {
 
 		window.clear(sf::Color::Black);
 
-		window.draw(circle);
-		window.draw(rectangle);
-		window.draw(triangle);
-		window.draw(pentagon);
-		window.draw(octagon);
+		window.draw(playerSprite);
 
 		window.display();
 
