@@ -2,9 +2,10 @@
 I am using this repository to learn about the core concepts of c++, SFML and game development as a whole by following a tutorial.
 
 ## Running the program
-• Open the solution in visual studio
-• Change the configuration to release
-• Press the F5 key
+• Open the solution in visual studio\
+• Change the configuration to release\
+• Press the F5 key\
+\
 
 You can find the executable under RPG-game/Build/[Your platform(x64/x86/win32)]/Release/bin/
 ## Credits
