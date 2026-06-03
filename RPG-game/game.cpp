@@ -1,5 +1,19 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
+#include <vector>
+#include <math.h>
+
+sf::Vector2f NormalizeVector(sf::Vector2f vector) {
+	
+	float magnitude = std::sqrt((vector.x * vector.x) + (vector.y * vector.y));
+
+	sf::Vector2f normalizedVector;
+
+	normalizedVector.x = vector.x / magnitude;
+	normalizedVector.y = vector.y / magnitude;
+
+	return normalizedVector;
+}
 
 int main() {
 
@@ -8,15 +22,43 @@ int main() {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
 
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Game", sf::Style::Default, settings);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Game", sf::Style::Default, settings);
 
 	window.setFramerateLimit(200);
 
 	
 
 	// --------------------------------------- Initialize ------------------------------------ //
+	
+	std::vector<sf::RectangleShape> bullets;
 
+	float bulletSpeed = 1.0;
+	
 	// --------------------------------------- Load ------------------------------------------ //
+
+	// ------------------------------ Skeleton ----------------------------- //
+
+	sf::Texture skeletonTexture;
+	sf::Sprite skeletonSprite;
+
+	if (skeletonTexture.loadFromFile("Assets/Skeleton/Textures/spritesheet.png")) {
+		skeletonSprite.setTexture(skeletonTexture);
+		std::cout << "Skeleton texture loaded" << std::endl;
+
+		int XIndex = 0;
+		int YIndex = 2;
+
+		skeletonSprite.setTextureRect(sf::IntRect(XIndex * 64, YIndex * 64, 64, 64));
+		skeletonSprite.scale(sf::Vector2f(3, 3));
+		skeletonSprite.setPosition(sf::Vector2f(400, 100));
+	}
+	else {
+		std::cout << "Player texture failed to load" << std::endl;
+	}
+
+	// ----------------------------- Skeleton ------------------------------ //
+
+	// ------------------------------ Player ------------------------------- //
 
 	sf::Texture playerTexture;
 	sf::Sprite playerSprite;
@@ -24,20 +66,28 @@ int main() {
 	if (playerTexture.loadFromFile("Assets/Player/Textures/spritesheet.png")) {
 
 		playerSprite.setTexture(playerTexture);
-		std::cout << "Player image loaded" << std::endl;
+		std::cout << "Player texture loaded" << std::endl;
 
 		int XIndex = 0;
 		int YIndex = 0;
 
 		playerSprite.setTextureRect(sf::IntRect(XIndex * 64, YIndex * 64, 64, 64));
 		playerSprite.scale(sf::Vector2f(3, 3));
+		playerSprite.setPosition(sf::Vector2f(1650, 800));
 	}
-	else{
-		std::cout << "Player image failed to load" << std::endl;
+	else {
+		std::cout << "Player texture failed to load" << std::endl;
 	}
-	
 
+	// ------------------------------ Player -------------------------------- //
+	
 	// --------------------------------------- Load ------------------------------------------ //
+
+	// ---------------------------- Calculate direction of bullet ---------------------------- //
+
+
+
+	// ---------------------------- Calculate direction of bullet ---------------------------- //
 
 	while (window.isOpen()) {
 
@@ -60,6 +110,7 @@ int main() {
 			}
 		}
 
+
 		sf::Vector2f position = playerSprite.getPosition();
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -78,6 +129,22 @@ int main() {
 			playerSprite.setPosition(position + sf::Vector2f(1, 0));
 		}
 
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			bullets.push_back(sf::RectangleShape(sf::Vector2f(50, 25)));
+
+			int i = bullets.size() - 1;
+
+			bullets[i].setPosition(playerSprite.getPosition());
+		}
+
+		for (size_t i = 0; i < bullets.size(); i++)
+		{
+			sf::Vector2f bulletDirection = skeletonSprite.getPosition() - bullets[i].getPosition();
+			bulletDirection = NormalizeVector(bulletDirection);
+
+			bullets[i].setPosition(bullets[i].getPosition() + bulletDirection * bulletSpeed);
+		}
+
 		// --------------------------------------- Update ------------------------------------ //
 
 		// --------------------------------------- Draw -------------------------------------- //
@@ -85,6 +152,12 @@ int main() {
 		window.clear(sf::Color::Black);
 
 		window.draw(playerSprite);
+		window.draw(skeletonSprite);
+
+		for (size_t i = 0; i < bullets.size(); i++)
+		{
+			window.draw(bullets[i]);
+		}
 
 		window.display();
 
