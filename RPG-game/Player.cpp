@@ -3,7 +3,11 @@
 
 void Player::Initialize()
 {
+	boundingRectangle.setFillColor(sf::Color::Transparent);
+	boundingRectangle.setOutlineColor(sf::Color::Red);
+	boundingRectangle.setOutlineThickness(1);
 
+	size = sf::Vector2i(64, 64);
 }
 
 void Player::Load()
@@ -15,46 +19,39 @@ void Player::Load()
 
 		int XIndex = 0;
 		int YIndex = 0;
-
-		sprite.setTextureRect(sf::IntRect(XIndex * 64, YIndex * 64, 64, 64));
+		 
+		sprite.setTextureRect(sf::IntRect(XIndex * size.x, YIndex * size.y, size.x, size.y));
+		sprite.setPosition(sf::Vector2f(150, 100));
 		sprite.scale(sf::Vector2f(3, 3));
-		sprite.setPosition(sf::Vector2f(1650, 800));
+
+		boundingRectangle.setSize(sf::Vector2f(size.x * sprite.getScale().x, size.y * sprite.getScale().y));
 	}
 	else {
 		std::cout << "Player texture failed to load" << std::endl;
 	}
-
+	
 }
 
-void Player::Draw(sf::RenderWindow& window)
-{
-	window.draw(sprite);
 
-	for (size_t i = 0; i < bullets.size(); i++)
-	{
-		window.draw(bullets[i]);
-	}
-}
-
-void Player::Update(Skeleton& skeleton)
+void Player::Update(float deltaTime, Skeleton& skeleton)
 {
 
 	sf::Vector2f position = sprite.getPosition();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		sprite.setPosition(position + sf::Vector2f(0, -1));
+		sprite.setPosition(position + sf::Vector2f(0, -1) * playerSpeed * deltaTime);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		sprite.setPosition(position + sf::Vector2f(-1, 0));
+		sprite.setPosition(position + sf::Vector2f(-1, 0) * playerSpeed * deltaTime);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		sprite.setPosition(position + sf::Vector2f(0, 1));
+		sprite.setPosition(position + sf::Vector2f(0, 1) * playerSpeed * deltaTime);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		sprite.setPosition(position + sf::Vector2f(1, 0));
+		sprite.setPosition(position + sf::Vector2f(1, 0) * playerSpeed * deltaTime);
 	}
 
 
@@ -72,7 +69,24 @@ void Player::Update(Skeleton& skeleton)
 		sf::Vector2f bulletDirection = skeleton.sprite.getPosition() - bullets[i].getPosition();
 		bulletDirection = Math::NormalizeVector(bulletDirection);
 
-		bullets[i].setPosition(bullets[i].getPosition() + bulletDirection * bulletSpeed);
+		bullets[i].setPosition(bullets[i].getPosition() + bulletDirection * bulletSpeed * deltaTime);
 	}
 
+	if (Math::DidRectCollide(sprite.getGlobalBounds(), skeleton.sprite.getGlobalBounds())) {
+		std::cout << "Collision" << std::endl;
+	}
+
+	boundingRectangle.setPosition(sprite.getPosition());
+
+}
+
+void Player::Draw(sf::RenderWindow& window)
+{
+	window.draw(sprite);
+	window.draw(boundingRectangle);
+
+	for (size_t i = 0; i < bullets.size(); i++)
+	{
+		window.draw(bullets[i]);
+	}
 }

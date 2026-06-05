@@ -12,6 +12,11 @@ private:
 	std::vector<sf::RectangleShape> bullets;
 	float bulletSpeed = 1.0;
 
+	float playerSpeed = 2.0;
+
+	sf::RectangleShape boundingRectangle;
+	sf::Vector2i size;
+
 public:
 	sf::Sprite sprite;
 
@@ -19,5 +24,5 @@ public:
 	void Initialize();
 	void Load();
 	void Draw(sf::RenderWindow& window);
-	void Update(Skeleton& skeleton);
+	void Update(float deltaTime, Skeleton& skeleton);
 };
