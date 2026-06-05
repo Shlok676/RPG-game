@@ -1,5 +1,6 @@
 #include <SFML\Graphics.hpp>
 
+#include "FrameRate.h"
 #include "Player.h"
 #include "Skeleton.h"
 #include <math.h>
@@ -16,11 +17,13 @@ int main() {
 
 	// --------------------------------------- Initialize ------------------------------------ //
 
+	FrameRate frameRate;
 	Player player;
 	Skeleton skeleton;
 
 	// --------------------------------------- Initialize ------------------------------------ //
 
+	frameRate.Initialize();
 	player.Initialize();
 	skeleton.Initialize();
 
@@ -29,6 +32,7 @@ int main() {
 	
 	// --------------------------------------- Load ------------------------------------------ //
 
+	frameRate.Load();
 	player.Load();
 	skeleton.Load();
 	
@@ -42,6 +46,9 @@ int main() {
 		// --------------------------------------- Update ------------------------------------ //
 		sf::Event event;
 
+		sf::Time deltaTimeTimer = clock.restart();
+		double deltaTime = deltaTimeTimer.asMicroseconds() / 1000;
+
 		while (window.pollEvent(event)) {
 
 			if (event.type == sf::Event::Closed) {
@@ -50,9 +57,7 @@ int main() {
 
 		}
 
-		sf::Time deltaTimeTimer = clock.restart();
-		float deltaTime = deltaTimeTimer.asSeconds() * 1000;
-
+		frameRate.Update(deltaTime);
 		skeleton.Update(deltaTime);
 		player.Update(deltaTime, skeleton);
 
@@ -64,6 +69,7 @@ int main() {
 
 		skeleton.Draw(window);
 		player.Draw(window);
+		frameRate.Draw(window);
 
 		window.display();
 
