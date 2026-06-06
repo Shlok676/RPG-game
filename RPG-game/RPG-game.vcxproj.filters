@@ -7,6 +7,7 @@
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h" />
@@ -14,5 +15,6 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="FrameRate.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Map.h" />
   </ItemGroup>
 </Project>

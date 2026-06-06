@@ -174,6 +174,7 @@ freetype.lib;</AdditionalDependencies>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Skeleton.cpp" />
@@ -181,6 +182,7 @@ freetype.lib;</AdditionalDependencies>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="FrameRate.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Skeleton.h" />
