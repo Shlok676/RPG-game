@@ -10,15 +10,22 @@ private:
 	sf::RectangleShape boundingRectangle;
 	sf::Vector2i size;
 
+	sf::Text healthText;
+	sf::Font font;
+
 public:
 	sf::Sprite sprite;
+
+	int health;
 
 public:
 	Skeleton();
 	~Skeleton();
 
+	void changeHealth(int hp);
+
 	void Initialize();
 	void Load();
-	void Draw(sf::RenderWindow& window);
 	void Update(float deltaTime);
+	void Draw(sf::RenderWindow& window);
 };

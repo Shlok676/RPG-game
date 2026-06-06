@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Skeleton.h"
+#include "Bullet.h"
 
 class Player
 {
@@ -9,8 +10,10 @@ class Player
 private:
 	sf::Texture texture;
 
-	std::vector<sf::RectangleShape> bullets;
-	float bulletSpeed;
+	std::vector<Bullet> bullets;
+
+	float maxFireRate;
+	float fireRateTimer;
 
 	float playerSpeed;
 
@@ -26,6 +29,6 @@ public:
 
 	void Initialize();
 	void Load();
+	void Update(float deltaTime, sf::Vector2f& mousePosition, Skeleton& skeleton);
 	void Draw(sf::RenderWindow& window);
-	void Update(float deltaTime, Skeleton& skeleton);
 };

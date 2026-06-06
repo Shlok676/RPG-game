@@ -55,11 +55,13 @@ int main() {
 				window.close();
 			}
 
-		}
+		}	
+
+		sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
 
 		frameRate.Update(deltaTime);
 		skeleton.Update(deltaTime);
-		player.Update(deltaTime, skeleton);
+		player.Update(deltaTime, mousePosition, skeleton);
 
 		// --------------------------------------- Update ------------------------------------ //
 

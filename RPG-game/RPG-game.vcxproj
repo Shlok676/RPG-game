@@ -171,6 +171,7 @@ freetype.lib;</AdditionalDependencies>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Math.cpp" />
@@ -178,6 +179,7 @@ freetype.lib;</AdditionalDependencies>
     <ClCompile Include="Skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="FrameRate.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Player.h" />
