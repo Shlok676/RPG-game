@@ -54,7 +54,7 @@ void Skeleton::Load()
 		std::cout << "Skeleton texture failed to load" << std::endl;
 	}
 }
-void Skeleton::Update(float deltaTime)
+void Skeleton::Update(double deltaTime)
 {
 	if (health > 0) {
 		boundingRectangle.setPosition(sprite.getPosition());

@@ -26,6 +26,6 @@ public:
 
 	void Initialize();
 	void Load();
-	void Update(float deltaTime);
+	void Update(double deltaTime);
 	void Draw(sf::RenderWindow& window);
 };

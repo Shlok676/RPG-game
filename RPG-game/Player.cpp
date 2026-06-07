@@ -34,6 +34,7 @@ void Player::Load()
 		sprite.scale(sf::Vector2f(3, 3));
 
 		boundingRectangle.setSize(sf::Vector2f(size.x * sprite.getScale().x, size.y * sprite.getScale().y));
+		boundingRectangle.setPosition(sf::Vector2f(150, 100));
 	}
 	else {
 		std::cout << "Player texture failed to load" << std::endl;
@@ -45,23 +46,25 @@ void Player::Load()
 void Player::Update(float deltaTime, sf::Vector2f& mousePosition, Skeleton& skeleton)
 {
 
-	sf::Vector2f position = sprite.getPosition();
+	sf::Vector2f movement(0, 0);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		sprite.setPosition(position + sf::Vector2f(0, -1) * playerSpeed * deltaTime);
+		movement.y += -1.0f;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		sprite.setPosition(position + sf::Vector2f(-1, 0) * playerSpeed * deltaTime);
+		movement.x += -1.0f;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		sprite.setPosition(position + sf::Vector2f(0, 1) * playerSpeed * deltaTime);
+		movement.y += 1.0f;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		sprite.setPosition(position + sf::Vector2f(1, 0) * playerSpeed * deltaTime);
+		movement.x += 1.0f;
 	}
+
+	sprite.move(movement * playerSpeed * (float)deltaTime);
 
 
 	fireRateTimer += deltaTime;
@@ -87,10 +90,8 @@ void Player::Update(float deltaTime, sf::Vector2f& mousePosition, Skeleton& skel
 
 			}
 		}
-
-		boundingRectangle.setPosition(sprite.getPosition());
-
 	}
+	boundingRectangle.setPosition(sprite.getPosition());
 }
 
 void Player::Draw(sf::RenderWindow& window)
