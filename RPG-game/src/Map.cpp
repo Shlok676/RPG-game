@@ -2,7 +2,8 @@
 #include <iostream>
 
 Map::Map() :
-	tileWidth(16), tileHeight(16), totalTilesX(0), totalTilesY(0), totalTiles(0)
+	tileWidth(16), tileHeight(16), totalTilesX(0), totalTilesY(0),
+	totalTiles(0), mapWidth(3), mapHeight(2), tiles(nullptr)
 {
 }
 
@@ -42,11 +43,11 @@ void Map::Load()
 		std::cout << "failed to load World prison tilesheet in Assets" << std::endl;
 	}
 
-	for (int y = 0; y < 2; y++)
+	for (int y = 0; y < mapHeight; y++)
 	{
-		for (int x = 0; x < 3; x++)
+		for (int x = 0; x < mapWidth; x++)
 		{
-			int i = x + y * 3;
+			int i = x + y * mapWidth;
 
 			int index = mapNumbers[i];
 
@@ -56,7 +57,7 @@ void Map::Load()
 										tileWidth, 
 										tileHeight));
 			mapSprites[i].setScale(5, 5);
-			mapSprites[i].setPosition(sf::Vector2f(x * tileWidth * 5, 100 + y * tileHeight * 5));
+			mapSprites[i].setPosition(sf::Vector2f(x * tileWidth * mapSprites[i].getScale().x , 100 + y * tileHeight * mapSprites[i].getScale().y));
 		}
 	}
 }
@@ -67,7 +68,7 @@ void Map::Update(double deltaTime)
 
 void Map::Draw(sf::RenderWindow& window)
 {
-	for (size_t i = 0; i < 6; i++)
+	for (size_t i = 0; i < mapSize; i++)
 	{
 		window.draw(mapSprites[i]);
 	}
