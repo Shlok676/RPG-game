@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
+#include "MapLoader.h"
+#include "MapData.h"
 
 class Map{
 
@@ -8,32 +10,22 @@ private:
 	sf::Texture tileSheetTexture;
 	Tile* tiles;
 
-	int tileWidth;
-	int tileHeight;
+	MapLoader mapLoader;
+	MapData md;
 
 	int totalTilesX;
 	int totalTilesY;
 
 	int totalTiles;
 
-	int mapWidth;
-	int mapHeight;
-
-	static const int mapSize = 6;
-
-	int mapNumbers[mapSize] = {
-		120, 121, 122,
-		144, 145, 146
-	};
-
-	sf::Sprite mapSprites[mapSize];
+	sf::Sprite* mapSprites;
 
 public:
 	Map();
 	~Map();
 
 	void Initialize();
-	void Load();
+	void Load(std::string filename);
 	void Update(double deltaTime);
 	void Draw(sf::RenderWindow& window);
 };

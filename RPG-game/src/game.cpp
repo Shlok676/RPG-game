@@ -20,7 +20,6 @@ int main() {
 
 	FrameRate frameRate;
 	Map map;
-	MapLoader mapLoader;
 	Player player;
 	Skeleton skeleton;
 
@@ -37,8 +36,7 @@ int main() {
 	// --------------------------------------- Load ------------------------------------------ //
 
 	frameRate.Load();
-	map.Load();
-	mapLoader.Load("Assets/Maps/Level-1.rmap");
+	map.Load("Assets/Maps/Level-1.rmap");
 	player.Load();
 	skeleton.Load();
 	
